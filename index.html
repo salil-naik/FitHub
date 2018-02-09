@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Arima+Madurai|Nova+Flat" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <!--link rel="stylesheet" type="text/css" href="css/index.css" /-->
+    <title>FitHub - An app to help you get fit</title>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.js"
+    type="text/javascript"></script>
+
+    <style type="text/css">
+    @import url("http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.css");
+
+    #feedControl {
+    margin-top : 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width : 440px;
+    font-size: 12px;
+    color: #9CADD0;
+    }
+
+/*
+    .container {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+.change .bar1 {
+    -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+    transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {opacity: 0;}
+
+.change .bar3 {
+    -webkit-transform: rotate(45deg) translate(-8px, -8px);
+    transform: rotate(45deg) translate(-8px, -8px);
+}
+*/
+    .width-1{width:8.33%;}
+    .width-2{width:16.66%;}
+    .width-2-4{width:20%;}
+    .width-3{width:25%;}
+    .width-4{width:33.33%;}
+    .width-5{width:41.66%;}
+    .width-6{width:50%;}
+    .width-7{width:58.33%;}
+    .width-8{width:66.66%;}
+    .width-9{width:75%;}
+    .width-10{width:83.33%;}
+    .width-11{width:91.66%;}
+    .width-12{width:100%;}
+
+    [class*="width-"]{padding:0px;
+        margin:0px;
+        float:left;
+        display:inline-block;
+            }
+
+    .fix{position:fixed;}
+    html{margin:0px;}
+    body{margin:0px;}
+
+    a{text-decoration:none;
+    	color:inherit;
+    	}
+
+    *{box-sizing:border-box;}
+    .shadow{box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .32), 0 6px 8px 0 rgba(0, 0, 0, 0.49);}
+
+    body{margin:0px;}
+    nav{height:60px;
+        background-color: #e61d25;color:white;
+      top:0px;width:100%;z-index: 2;
+      opacity:0.95;}
+
+    nav [class*="width"]{height:60px;line-height: 60px;text-align: center; font-family: 'Roboto', sans-serif;
+    }
+
+    nav div.width-10{font-weight: bold;font-size: 30px;}
+    nav div.width-2{font-size:20px;}
+    nav div.width-2 ul li{text-align: left;padding-left: 15px;font-weight:bold;}
+    .hide{display:none;color:white;line-height: 60px;}
+    #menu:hover .hide{display:block;}
+
+    .hide {text-decoration: none;line-height:60px;position:absolute;
+    top:60px;right:0px;width:60%;z-index: 3;height:180px;padding:0px;margin:0px;}
+
+    .hide  li{color:#e61d25;background-color: white;border-bottom:1px solid #f1f1f1;list-style-type: none;}
+
+    .bottomNav{width:100%;height:50px;position:fixed;
+              bottom:0px;z-index: 3;}
+    .bottomNav ul{margin:0px;padding:0px;border-top: 2px solid #e61d25;}
+    .bottomNav ul li{width:33%;height:50px;line-height: 50px;
+                    font-size:18px;
+                    text-align: center;
+                  background-color:white;color:#e61d25;
+                  font-weight: bold;
+                  display:inline-block;
+                  float:left;
+                  border-right:1px solid #f1f1f1;
+                }
+
+    main{position:relative;top:60px;}
+
+    .nova{font-family: 'Nova Flat', cursive;}
+    .madhu{font-family: 'Arima Madurai', cursive;}
+    .roboto{font-family: 'Roboto', sans-serif;}
+    div.feed div{margin:20px 0px; border-bottom: 1px solid #e61d25ad;padding:15px 0px;}
+    table{border:0px;margin:auto 15px;}
+    table img{width:100%;border:0px;outline:none;box-shadow: 12px 15px 15px -10px rgba(65, 64, 66, 0.7);margin-bottom:15px;}
+    table td{width:100%;}
+    table a{color:black;text-decoration: none;font-family: 'Arima Madurai', cursive;font-size:20px;}
+    table a:visited{color:black;}
+
+
+  /*  a{color:orange;font-weight: bold;width:100%;display:block;
+    overflow-x:scroll;}*/
+    </style>
+    <script type="text/javascript">
+    function load() {
+    var feed ="http://feeds.bbci.co.uk/news/world/rss.xml";
+    new GFdynamicFeedControl(feed, "feedControl");
+
+    }
+    google.load("feeds", "1");
+    google.setOnLoadCallback(load);
+    </script>
+</head>
+
+<!--meta name="viewport" content="width=device-width, initial-scale=1.0" /-->
+<body>
+  <nav class="fix">
+
+    <div class="width-10">FitHub.Inc</div>
+
+    <div class="width-2">
+      <div id="menu" style="background-color:white;border-bottom:1px solid #f1f1f1;"><span>&#9776;</span>
+        <!--div class="container" onclick="myFunction(this)">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div-->
+
+        <ul class="hide shadow">
+          <a href="index.html"><li>Home</li></a>
+          <a href="progress.html"><li>Progress</li></a>
+          <a href="about.html"><li>About</li></a>
+        </ul>
+      </div>
+
+    </div>
+
+  </nav>
+
+
+
+  <main>
+    <h1 class="roboto" style="text-align:center;">NEWS FEED</h1>
+    <div class="feed">
+        <rss>
+        <channel>
+            <div>
+            <title>
+            The Future Of Health And Fitness: Personalization And Genetic Insight Through DNA Testing
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRH5PnWh6wiuY4T_aKESiQkE9Yhuwz8GOeHm4irF9HBs_BM6PK2Hs1jdUyc7aZ2TxQ3GqZos7Lugg" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="https://www.forbes.com/sites/leebelltech/2018/02/09/genetic-insight-is-the-future-of-health-and-fitness-and-heres-why/" target="_blank">The Future Of Health And Fitness: Personalization And Genetic Insight Through DNA Testing"</a>&nbsp;&nbsp;<font color="#6f6f6f">Forbes</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+            <div>
+            <title>
+            Equinox's “Fitness Incubator” And Its Search For The Next Zumba
+            </title>
+
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVYJ6oaC3UOXA5Fklr_vJBlcIe9j8bivPgnr0aCYRcaJOEEVDWXfaBAeXiHq9JUMDiVRH0Jzn09w" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="https://www.fastcompany.com/40525455/equinoxs-fitness-incubator-and-its-search-for-the-next-zumba" target="_blank">Equinox's “Fitness Incubator” And Its Search For The Next Zumba</a>&nbsp;&nbsp;<font color="#6f6f6f">Fast Company</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            The 3 biggest health and fitness lies people believe on social media, according to fitness Instagram star Anna Victoria
+            </title>
+
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRxiMNK6M2d1_rGBl27A6GwW6RpQmfomuolnqC6ugsUVoGwf6zERV45erpz9P5tVyH_3nP8kAUP_g" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="http://www.thisisinsider.com/instagram-fitness-lies-2018-2" target="_blank">The 3 biggest health and fitness lies people believe on social media, according to fitness Instagram star Anna Victoria</a>&nbsp;&nbsp;<font color="#6f6f6f">INSIDER</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            Former fitness company exec could face 20 years in kidnapping of Maplewood man
+            </title>
+
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwiVkFtqADjtL6AG9hcJ8Vr6WitENhPYALnXnMQN9MJIYd8IgbJQoZKV3WjRKIks1SUytKuhOTLA" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="http://www.stltoday.com/news/local/crime-and-courts/former-fitness-company-exec-could-face-years-in-kidnapping-of/article_b419697b-2d55-5452-880d-5de49c966ec4.html" target="_blank">Former fitness company exec could face 20 years in kidnapping of Maplewood man</a>&nbsp;&nbsp;<font color="#6f6f6f">STLtoday.com</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            Fitness startup Studio is bringing its audio running classes to Life Fitness treadmills
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRO1zpOOwXRnxFz9qP4AfAhrFIkpjQiOEdJ7rFeDptoFGdvjGsv_4c5q7-OKbuZfYCq6suLDX4CTQ" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="https://techcrunch.com/2018/02/07/studio-life-fitness-partnership/?ncid=rss" target="_blank">Fitness startup Studio is bringing its audio running classes to Life Fitness treadmills</a>&nbsp;&nbsp;<font color="#6f6f6f">TechCrunch</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            Texas Woman, Who Was Possibly Living at Fitness Center, Found Nearly Drowned in Pool
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTrQB-lSQXe_sWB81DnYzOqRNQypk_IFtLoG0fMaT6xKyYbU8Dpc03yJXdvWSwBtzWGUxAvIfjPyg" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="https://www.theroot.com/texas-woman-who-was-possibly-living-at-fitness-center-1822863939" target="_blank">Texas Woman, Who Was Possibly Living at Fitness Center, Found Nearly Drowned in Pool</a>&nbsp;&nbsp;<font color="#6f6f6f">The Root</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            Row yourself to fitness for free (for 14 days) at City Crew
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTZcuLoUG5TqT62HWP5SJ0JWCvek_8uH0ufgxIQsM0Q2D53y48wz0GbdsNAsCh75Euy9YRjpCbJJg" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="https://www.dallasnews.com/life/fitness/2018/02/09/row-fitness-free-14-days-city-crew" target="_blank">Row yourself to fitness for free (for 14 days) at City Crew</a>&nbsp;&nbsp;<font color="#6f6f6f">Dallas News (blog)</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            Will Mauricio Pochettino's fitness obsession be enough to get Tottenham past Arsenal and their new faces?
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsqOJhgcnF0VwOMyv5_mEN3-PBNHabt6zZ6TK5uY0ZHhPzX6PnTu0FcRCaTFPWsA-zNlfv_L7tXw" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="http://www.independent.co.uk/sport/football/premier-league/tottenham-spurs-vs-arsenal-north-london-derby-nld-preview-pochettino-wenger-a8202436.html" target="_blank">Will Mauricio Pochettino's fitness obsession be enough to get Tottenham past Arsenal and their new faces?</a>&nbsp;&nbsp;<font color="#6f6f6f">The Independent</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>Heart Health with Orangetheory Fitness</title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCcrdHTz6e27wiEZiwmaRyshu8z5AMVv71ZMaqtFJRAVB3MsIrXZ0SgAFctIehkuUHV1mCkDPeoA" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="http://kxan.com/2018/02/09/heart-health-with-orangetheory-fitness/" target="_blank">Heart Health with Orangetheory Fitness</a>&nbsp;&nbsp;<font color="#6f6f6f">KXAN.com</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>North Texas fitness trainer, 27, dies from flu</title>
+
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdpedVAQgdoX2pqzsvzJ4DoSb0QhjYwc9SbKrek3SCaOiWCWrX-5WZFs6Mn7jBUOrcuiuz-jx2ow" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="http://www.fox4news.com/news/north-texas-fitness-trainer-27-dies-from-flu" target="_blank">North Texas fitness trainer, 27, dies from flu</a>&nbsp;&nbsp;<font color="#6f6f6f">FOX 4 News</font></li></strong><li><a href="http://dfw.cbslocal.com/2018/02/08/flu-claims-27-year-old-fitness-trainers-life/" target="_blank">Flu Claims 27-Year-Old Fitness Trainer's Life</a>&nbsp;&nbsp;<font color="#6f6f6f">CBS DFW</font></li></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            Research Suggests Group Fitness Classes Lead To Better Results, Motivation
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQux1FQTl-Y-dciVoyfL4DPT4YsmPg3n3onN6swNuvY_ni-wnD992x4FVLvKUEoMB6_nI__Upwm_g" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="http://pittsburgh.cbslocal.com/2018/02/08/group-fitness-classes-trend/" target="_blank">Research Suggests Group Fitness Classes Lead To Better Results, Motivation</a>&nbsp;&nbsp;<font color="#6f6f6f">CBS Pittsburgh / KDKA</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            What is Freeletics? How the new fitness app helps you lose weight and where to download it
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvnqKhmC0CQRupvOl1N2Ku1SoKvx6FptbUi2doCY0_cmg2iwLc9P3t8ZMvZcDTkjv0hQffDYFkhA" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="https://www.thesun.co.uk/fabulous/5532346/freeletics-new-fitness-app-helps-lose-weight/" target="_blank">What is Freeletics? How the new fitness app helps you lose weight and where to download it</a>&nbsp;&nbsp;<font color="#6f6f6f">The Sun</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            Mirror raises $13 million for virtual fitness classes
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcScSWo5qV52lqox4T61ESwMuGIXwL5pcgk5Tz8f8RZmk50K5e6wHIkL6q7akscYmLMwjxFCIOeMRKw" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="https://techcrunch.com/2018/02/06/mirror-raises-13-million-for-virtual-fitness-classes/" target="_blank">Mirror raises $13 million for virtual fitness classes</a>&nbsp;&nbsp;<font color="#6f6f6f">TechCrunch</font></li></strong><li><a href="https://www.bizjournals.com/newyork/news/2018/02/06/in-home-fitness-startup-mirror-raises-new-funds.html" target="_blank">In-home fitness startup Mirror raises new funds from Spark Capital</a>&nbsp;&nbsp;<font color="#6f6f6f">New York Business Journal</font></li></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            Jeanette Jenkins On The Best Way To Approach Those Lofty Fitness Goals
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRaB-B4XYXK0FjrpzVVGUCpwVJP55JbEGOe2xXjdJNv70c7wRObw0Twj8mKlLWFhB5Q8Mxu6mni" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="https://www.essence.com/lifestyle/health-wellness/jeanette-jenkins-fitness-goals" target="_blank">Jeanette Jenkins On The Best Way To Approach Those Lofty Fitness Goals</a>&nbsp;&nbsp;<font color="#6f6f6f">Essence.com</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>On vacation, exercise your desire for fitness</title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeEqyqQq3xBRPp9XmNpUQK8vVDMJ49e_xVM5fOhFHxoh-Q60KvrmdMq5qxv4WzGIH6T994223b" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="http://www.startribune.com/on-vacation-exercise-your-desire-for-fitness/473457893/" target="_blank">On vacation, exercise your desire for fitness</a>&nbsp;&nbsp;<font color="#6f6f6f">Minneapolis Star Tribune</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            Britney Spears shows off her challenging fitness routine in new video
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRsFWJgKyGj-U-ZlRAPtkIp0lEVBFqGFhp3MWYPWEiWkj3ZJV2x8x5YQdEa5xX4iUEYhKZ1NVIN" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="https://www.hellomagazine.com/healthandbeauty/health-and-fitness/2018020946176/britney-spears-fitness-routine-video/" target="_blank">Britney Spears shows off her challenging fitness routine in new video</a>&nbsp;&nbsp;<font color="#6f6f6f">hellomagazine.com</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            4 Habits That Can Take Your Fitness Routine From Good to Great, According to Gunnar Peterson
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRePHsDKwXZDgJKqadLcq-tcmr0_D3FQveLbEefeKibmMI3sRV1DcUkZDWIQTiXLrq3j2Yu7SkigA" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="https://www.self.com/story/lifestyle-habits-for-great-fitness-routine-gunnar-peterson" target="_blank">4 Habits That Can Take Your Fitness Routine From Good to Great, According to Gunnar Peterson</a>&nbsp;&nbsp;<font color="#6f6f6f">SELF</font></li></strong>></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            Leigh Halfpenny gives Wales fitness scare ahead of England clash
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf_odwx5wqjx2V2EmxEmu1-xY6gin1W5fk5Yg5e-Z5F9hXMUQJlhi7z38HI_me3_y0UiSBoBFOkw" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="http://www.skysports.com/rugby-union/news/12321/11243133/leigh-halfpenny-gives-wales-fitness-scare-ahead-of-england-clash" target="_blank">Leigh Halfpenny gives Wales fitness scare ahead of England clash</a>&nbsp;&nbsp;<font color="#6f6f6f">SkySports</font></li></strong><li><a href="https://www.irishtimes.com/sport/rugby/international/leigh-halfpenny-gives-wales-a-fitness-scare-ahead-of-england-clash-1.3386947" target="_blank">Leigh Halfpenny gives Wales a fitness scare ahead of England clash</a>&nbsp;&nbsp;<font color="#6f6f6f">Irish Times</font></li></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            Woman On Life Support After Nearly Drowning At Fitness Center Where She Had Allegedly Been Living For Weeks
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRGgCc2u-gKDozwzILSVvgA02F6Fbai6t6M2bCH-n7Z5FIC7w6MtZOOH0oZ3jJtzS_Xu9rBlA0y-g" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="https://www.bet.com/news/national/2018/02/09/woman-found-in-pool-at-community-center.html" target="_blank">Woman On Life Support After Nearly Drowning At Fitness Center Where She Had Allegedly Been Living For Weeks</a>&nbsp;&nbsp;<font color="#6f6f6f">BET</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            <div>
+            <title>
+            Woman Secretly Living At Life Time Fitness Found Nearly Drowned In Pool
+            </title>
+            <description>
+            <table border="0" cellpadding="2" cellspacing="3"><tr><td><img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQiOuEf4waF78nhj2IuuGxJybihuudk-dsbMY6bIdq2mKKfwaeY-WeMq6jGRos3X9j1_fH8KuqE" border="1"></td></tr><tr><td><ol style="list-style: none; margin: 0; padding: 0;"><strong><li><a href="http://dfw.cbslocal.com/2018/02/07/women-secretly-living-at-lifetime-fitness-found-nearly-drowned-in-pool/" target="_blank">Woman Secretly Living At Life Time Fitness Found Nearly Drowned In Pool</a>&nbsp;&nbsp;<font color="#6f6f6f">CBS DFW</font></li></strong></ol></td></tr></table>
+            </description>
+            </div>
+
+
+            </channel>
+            </rss>
+        </div>
+  </main>
+
+  <div class="bottomNav">
+    <ul>
+      <a href="index.html"><li style="background-color:#f1f1f1;">News</li></a>
+      <a href="workout.html"><li>Workout</li></a>
+      <a href="music.html"><li>Music</li></a>
+    </ul>
+  </div>
+
+
+
+</body>
+
+</html>
