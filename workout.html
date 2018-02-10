@@ -91,16 +91,15 @@
 
     body{margin:0px;}
     nav{height:60px;
-        background-color: #e61d25;color:white;
       top:0px;width:100%;z-index: 2;
       opacity:0.95;}
 
     nav [class*="width"]{height:60px;line-height: 60px;text-align: center; font-family: 'Roboto', sans-serif;
     }
 
-    nav div.width-10{font-weight: bold;font-size: 30px;}
+    nav div.width-10{font-weight: bold;font-size: 30px;background-color: #e61d25;color:white;}
     nav div.width-2{font-size:20px;}
-    nav div.width-2 ul li{text-align: left;padding-left: 15px;font-weight:bold;}
+    nav div.width-2 ul li{text-align: left;padding-left: 15px;font-weight:bold;background-color:white;}
     .hide{display:none;color:white;line-height: 60px;}
     #menu:hover .hide{display:block;}
 
@@ -122,17 +121,21 @@
                   border-right:1px solid #f1f1f1;
                 }
 
-    main{position:relative;top:60px;}
+    main{position:relative;top:60px;padding-bottom:100px;}
 
     .nova{font-family: 'Nova Flat', cursive;}
     .madhu{font-family: 'Arima Madurai', cursive;}
     .roboto{font-family: 'Roboto', sans-serif;}
 
-    
+    [class*="card"]{font-family: 'Nova Flat', cursive; height:150px;width:93%;margin:auto;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .32), 0 6px 8px 0 rgba(0, 0, 0, 0.49);}
 
+    .cardone{background-image:url("yoga2.jpg");background-size:350px;color:white;}
+    .cardtwo{background-image:url("cardio.jpg");background-size:350px;color:white}
+    .cardthree{background-image:url("strength.jpg");background-size:350px;color:white}
+    .cardfour{background-image:url("sleep.jpg");background-size:350px;color:white}
+    [class*="card"] .name{position: relative;top:90px;left:10px;text-align:left;}
 
-
-
+    .name h2{margin:2px 0px;font-weight:bolder;}
     </style>
     <script type="text/javascript">
     function load() {
@@ -174,6 +177,50 @@
 
   <main>
     <h1 class="roboto" style="text-align:center;">WORKOUT</h1>
+
+    <a href="yoga.html">
+    <div class="cardone">
+      <div class="name">
+      <h2>YOGA</h2>
+      <span>30 minutes a day</span>
+      </div>
+    </div>
+    </a>
+
+
+    <br>
+    <br>
+    <a href="cardio.html">
+    <div class="cardtwo">
+      <div class="name">
+      <h2>CARDIO</h2>
+      <span>30 minutes, 4 times a week</span>
+      </div>
+    </div>
+    </a>
+
+    <br><br>
+    <a href="">
+    <div class="cardthree">
+      <div class="name">
+      <h2>STRENGTH TRAINING</h2>
+      <span>30 minutes a day</span>
+      </div>
+    </div>
+    </a>
+
+    <br><br>
+    <a href="">
+    <div class="cardfour">
+      <div class="name">
+      <h2>SLEEP</h2>
+      <span>6-8 hours a night</span>
+      </div>
+    </div>
+    </a>
+
+
+
 
   </main>
 

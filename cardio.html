@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Arima+Madurai|Nova+Flat" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <!--link rel="stylesheet" type="text/css" href="css/index.css" /-->
+    <title>Workout | FitHub</title>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script src="http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.js"
+    type="text/javascript"></script>
+
+    <style type="text/css">
+    @import url("http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.css");
+
+    #feedControl {
+    margin-top : 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width : 440px;
+    font-size: 12px;
+    color: #9CADD0;
+    }
+
+
+    .width-1{width:8.33%;}
+    .width-2{width:16.66%;}
+    .width-2-4{width:20%;}
+    .width-3{width:25%;}
+    .width-4{width:33.33%;}
+    .width-5{width:41.66%;}
+    .width-6{width:50%;}
+    .width-7{width:58.33%;}
+    .width-8{width:66.66%;}
+    .width-9{width:75%;}
+    .width-10{width:83.33%;}
+    .width-11{width:91.66%;}
+    .width-12{width:100%;}
+
+    [class*="width-"]{padding:0px;
+        margin:0px;
+        float:left;
+        display:inline-block;
+            }
+
+    .fix{position:fixed;}
+    html{margin:0px;}
+    body{margin:0px;}
+
+    a{text-decoration:none;
+    	color:inherit;
+    	}
+
+    *{box-sizing:border-box;}
+    .shadow{box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .32), 0 6px 8px 0 rgba(0, 0, 0, 0.49);}
+
+    body{margin:0px;}
+    nav{height:60px;
+      top:0px;width:100%;z-index: 2;
+      opacity:0.95;}
+
+    nav [class*="width"]{height:60px;line-height: 60px;text-align: center; font-family: 'Roboto', sans-serif;
+    }
+
+    nav div.width-10{font-weight: bold;font-size: 30px;background-color: #e61d25;color:white;}
+    nav div.width-2{font-size:20px;}
+    nav div.width-2 ul li{text-align: left;padding-left: 15px;font-weight:bold;background-color:white;}
+    .hide{display:none;color:white;line-height: 60px;}
+    #menu:hover .hide{display:block;}
+
+    .hide {text-decoration: none;line-height:60px;position:absolute;
+    top:60px;right:0px;width:60%;z-index: 3;height:180px;padding:0px;margin:0px;}
+
+    .hide  li{color:#e61d25;background-color: white;border-bottom:1px solid #f1f1f1;list-style-type: none;}
+
+    .bottomNav{width:100%;height:50px;position:fixed;
+              bottom:0px;z-index: 3;}
+    .bottomNav ul{margin:0px;padding:0px;border-top: 2px solid #e61d25;}
+    .bottomNav ul li{width:33%;height:50px;line-height: 50px;
+                    font-size:18px;
+                    text-align: center;
+                  background-color:white;color:#e61d25;
+                  font-weight: bold;
+                  display:inline-block;
+                  float:left;
+                  border-right:1px solid #f1f1f1;
+                }
+
+    main{position:relative;top:60px;}
+
+    .nova{font-family: 'Nova Flat', cursive;}
+    .madhu{font-family: 'Arima Madurai', cursive;}
+    .roboto{font-family: 'Roboto', sans-serif;}
+
+    [class*="card"]{font-family: 'Nova Flat', cursive; height:150px;width:93%;margin:auto;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, .32), 0 6px 8px 0 rgba(0, 0, 0, 0.49);}
+
+    .cardone{background-image:url("yoga2.jpg");background-size:350px;color:white;}
+
+    [class*="card"] .name{position: relative;top:90px;left:10px;text-align:left;}
+
+
+
+    #myDIV{display:none;}
+
+    div.content{padding:15px;font-family: 'Roboto', sans-serif;font-size:18px;
+line-height: 25px}
+
+    button{background-color:transparent;outline:none;color:red;border:0px;}
+    div.content p{line-height: 25px;}
+
+    h3{border-bottom:4px solid red;padding:0px 10px;}
+    iframe{width:100%;margin:20px 0px;}
+
+    div.videos{margin-bottom:100px;padding:10px;}
+
+    div.stopwatch{margin:auto;text-align: center;margin:100px 10px 10px 10px;
+    }
+    div.stopwatch button{background-color:red;color:white;height:30px;line-height: 30px;
+    border-radius:8px;opacity:0.8;width:100px;}
+
+    ul{margin:0px;padding:0px;}
+    ul li{list-style-type: none;font-weight: bold;}
+    </style>
+    <script type="text/javascript">
+    function load() {
+    var feed ="http://feeds.bbci.co.uk/news/world/rss.xml";
+    new GFdynamicFeedControl(feed, "feedControl");
+
+    }
+    google.load("feeds", "1");
+    google.setOnLoadCallback(load);
+    </script>
+
+  >
+
+</head>
+
+<!--meta name="viewport" content="width=device-width, initial-scale=1.0" /-->
+<body>
+  <nav class="fix">
+
+    <div class="width-10">FitHub.Inc</div>
+
+    <div class="width-2">
+      <div id="menu" style="background-color:white;border-bottom:1px solid #f1f1f1;"><span>&#9776;</span>
+        <!--div class="container" onclick="myFunction(this)">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div-->
+
+        <ul class="hide shadow">
+          <a href="index.html"><li>Home</li></a>
+          <a href="progress.html"><li>Progress</li></a>
+          <a href="about.html"><li>About</li></a>
+        </ul>
+      </div>
+
+    </div>
+
+  </nav>
+
+
+
+  <main>
+    <h1 class="roboto" style="text-align:center;">CARDIO</h1>
+    <img src="cardio.jpg" class="width-12"/>
+
+    <script>
+    function myFunction() {
+    var x = document.getElementById("myDIV");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+    </script>
+<!-- for read more-->
+<!-- for stop watch-->
+
+    <script>
+    function start(){
+    var h1 = document.getElementsByTagName('h1')[0],
+    start = document.getElementById('start'),
+    stop = document.getElementById('stop'),
+    clear = document.getElementById('clear'),
+    seconds = 0, minutes = 0, hours = 0,
+    t;
+
+function add() {
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+        }
+    }
+
+    h1.textContent = (hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds);
+
+    timer();
+}
+function timer() {
+    t = setTimeout(add, 1000);
+}
+timer();
+
+
+/* Start button */
+start.onclick = timer;
+
+/* Stop button */
+stop.onclick = function() {
+    clearTimeout(t);
+}
+
+/* Clear button */
+clear.onclick = function() {
+    h1.textContent = "00:00:00";
+    seconds = 0; minutes = 0; hours = 0;
+}
+}
+    </script>
+
+<div class="stopwatch">
+    <h2><time style="font-size:1px;">00:00:00</time></h2>
+<button id="start" onclick="start()">start</button>
+<button id="stop">stop</button>
+<button id="clear">clear</button>
+</div>
+
+    <div class="content">
+      <h2>What is Cardio?</h2>
+      <b>HIIT (High Intensity Interval Training)</b>
+      <p>
+      HIIT  involves drills like sprints, lunges, and speed skaters with brief periods of rest in between.
+<button onclick="myFunction()">Read More</button>
+</p>
+      <div id="myDIV">
+<br>
+
+
+<ul><li>It's Efficient</li>
+
+<p>
+Super-efficient HIIT is the ideal workout for a busy schedule—whether you want to squeeze in a workout during your lunch break or to get in shape for a fast-approaching event. Research shows you can achieve more progress in a mere 15 minutes of interval training (done three times a week) than the girl jogging on the treadmill for an hour. (Watch and try this video of a 10-minute fat-blasting cardio routine that burns more calories than a half hour on the treadmill!) And according to a 2011 study presented at the American College of Sports Medicine Annual Meeting, just 2 weeks of high-intensity intervals improves your aerobic capacity as much as 6 to 8 weeks of endurance training.
+That's not even the best part! Using the Tabata training method, you can complete an effective HIIT workout in just 4 minutes.
+</p>
+
+<li>You'll Burn More Fat</li>
+<p>
+Not only do you burn more calories during a HIIT workout, but the effect of all that intense exertion kicks your body's repair cycle into hyperdrive. That means you burn more fat and calories in the 24 hours after a HIIT workout than you do after, say, a steady-pace run.
+</p>
+
+<li>You'll Build a Healthier Heart</li>
+<p>
+Most people aren't used to pushing into the anaerobic zone (that lovely place where you can't breathe and you feel like your heart is trying to jump out of your chest). But in this case, extreme training produces extreme results. One 2006 study found that after 8 weeks of doing HIIT workouts, subjects could bicycle twice as long as they could before the study, while maintaining the same pace.
+</p>
+
+<li>There's No Equipment Necessary</li>
+<p>
+Running, biking, jump roping, and rowing all work great for HIIT, but you don't need any equipment to get it done. High knees, fast feet, or anything plyometric like jumping lunges work just as well to get your heart rate up fast. In fact, some equipment like dumbbells can make HIIT less effective because you want the focus to be on pushing your heart to its max, not your biceps.
+</p>
+
+<li>You Lose Weight, Not Muscle</li>
+<p>
+Anyone who has been on a diet knows that it's hard to not lose muscle mass along with fat. While steady state cardio seems to encourage muscle loss, studies show that both weight training and HIIT workouts allow dieters to preserve their hard-earned muscles while ensuring most of the weight lost comes from fat stores. Win/win!
+</p>
+
+
+<li>You'll Increase Your Metabolism</li>
+<p>
+In addition to increased fat burning and more muscle preserved, HIIT stimulates production of your human growth hormone (HGH) by up to 450 percent during the 24 hours after you finish your workout. This is great news since HGH is not only responsible for increased caloric burn but also slows down the aging process, making you younger both inside and out!
+</p>
+
+<li>You Can Do It Anywhere</li>
+<p>
+You can do it in a boat, you can do it with a goat. You can do it here or there, you can do it anywhere! Dr. Seuss would have loved HIIT. Since it's such a simple concept—go at maximum effort for a short period of time followed by a recovery period and repeat—you can adapt it to whatever time and space constraints you have.
+</p>
+
+
+<li>It's Seriously Challenging</li>
+<p>
+This is not a workout you can do while reading a magazine or chatting with your friend. Because it's so short, you will be working hard the whole time. The trade-off is this format offers seasoned exercisers a new challenge and new exercisers a quick way to see results. You may be in pain, you may be sucking wind, but you definitely won't be bored!
+</p>
+</ul>
+
+    </div>
+
+<h3>Related Videos</h3>
+<div class="videos">
+<iframe height="auto" src="https://www.youtube.com/embed/SUDeeovoSmc" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe height="auto" src="https://www.youtube.com/embed/fcN37TxBE_s" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe height="auto" src="https://www.youtube.com/embed/ZiUm5eBo6_w" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+</div>
+
+  </main>
+
+  <div class="bottomNav">
+    <ul>
+      <a href="index.html"><li>News</li></a>
+      <a href="workout.html"><li style="background-color:#f1f1f1;">Workout</li></a>
+      <a href="music.html"><li>Music</li></a>
+    </ul>
+  </div>
+
+
+
+
+</body>
+
+</html>
